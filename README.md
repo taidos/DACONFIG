@@ -56,7 +56,7 @@ firewall-cmd --reload
 ```
 
 # INSTALL DIRECTADMIN
-(*) <b><a href="https://github.com/irf1404/DACONFIG" target="_blank">HERE</a></b>
+(*) <b><a href="https://github.com/irf1404/DA" target="_blank">HERE</a></b>
 
 # AFTER INSTALL
 ```
