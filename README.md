@@ -55,6 +55,9 @@ firewall-cmd --zone=public --add-port=2222/tcp --permanent
 firewall-cmd --reload
 ```
 
+# INSTALL DIRECTADMIN
+(*) <b><a href="https://github.com/irf1404/DACONFIG" target="_blank">HERE</a></b>
+
 # AFTER INSTALL
 ```
 /usr/bin/perl -pi -e 's/^ethernet_dev=.*/ethernet_dev=${NIC}:100/' /usr/local/directadmin/conf/directadmin.conf
