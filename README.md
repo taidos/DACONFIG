@@ -1,5 +1,5 @@
 # BEFORE INSTALL
-(*) COMMON PRE-INSTALL COMMANDS
+<b>(*) COMMON PRE-INSTALL COMMANDS</b>
  + CentOS 7
 ```
 yum install wget gcc gcc-c++ flex bison make bind bind-libs bind-utils openssl openssl-devel perl quota libaio \
@@ -15,7 +15,7 @@ autoconf automake libtool which patch mailx bzip2-devel lsof glibc-headers kerne
 psmisc net-tools systemd-devel libdb-devel perl-DBI perl-libwww-perl xfsprogs rsyslog logrotate crontabs file kernel-headers hostname
 ```
 
-(*) ADD SUBNET FOR LICENSE DIRECTADMIN
+<b>(*) ADD SUBNET FOR LICENSE DIRECTADMIN</b>
  + CHECK NETWORK INTERFACE CARD (NIC)
 ```
 ip a
@@ -45,7 +45,7 @@ printf "DEVICE=${NIC}:100\nIPADDR=`grep ^ip= /root/.license |cut -d= -f2`\nNETMA
 /usr/sbin/ifup ${NIC}:100
 ```
 
-(*) ADD PORT FIREWALL
+<b>(*) ADD PORT FIREWALL</b>
 ```
 firewall-cmd --zone=public --add-port=21/tcp --permanent
 firewall-cmd --zone=public --add-port=25/tcp --permanent
