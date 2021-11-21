@@ -1,0 +1,2 @@
+ip=34.124.198.172
+url=https://raw.githubusercontent.com/irf1404/DACONFIG/master/license.key
