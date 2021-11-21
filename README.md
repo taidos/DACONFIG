@@ -25,7 +25,7 @@ NIC="ethx" # WITH x IS NUMBER OF CARD, eth0, venet0, ens0,...
 ```
 NIC="eth0"
 wget -O /root/.license https://raw.githubusercontent.com/irf1404/DACONFIG/master/license.txt
-printf "DEVICE=eth0:100\nIPADDR=`grep ^ip= /root/.license |cut -d= -f2`\nNETMASK=255.255.255.0" > /etc/sysconfig/network-scripts/ifcfg-${NIC}:100
+printf "DEVICE=${NIC}:100\nIPADDR=`grep ^ip= /root/.license |cut -d= -f2`\nNETMASK=255.255.255.0" > /etc/sysconfig/network-scripts/ifcfg-${NIC}:100
 /usr/sbin/ifup ${NIC}:100
 ```
 
@@ -37,4 +37,28 @@ firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --zone=public --add-port=443/tcp --permanent
 firewall-cmd --zone=public --add-port=2222/tcp --permanent
 firewall-cmd --reload
+```
+
+# AFTER INSTALL
+```
+/usr/bin/perl -pi -e 's/^ethernet_dev=.*/ethernet_dev=${NIC}:100/' /usr/local/directadmin/conf/directadmin.conf
+/usr/bin/perl -pi -e 's/^LANG_ENCODING=.*/LANG_ENCODING=UTF-8/' /usr/local/directadmin/data/skins/enhanced/lang/en/lf_standard.html
+wget -O /var/www/html/status.php https://raw.githubusercontent.com/irf1404/DACONFIG/master/status.php
+chmod 644 /var/www/html/status.php
+chown webapps:webapps /var/www/html/status.php
+grep -q 'enable_ssl_sni=1' /usr/local/directadmin/conf/directadmin.conf || echo "enable_ssl_sni=1" >> /usr/local/directadmin/conf/directadmin.conf
+grep -q 'hide_brute_force_notifications=1' /usr/local/directadmin/conf/directadmin.conf || echo "hide_brute_force_notifications=1" >> /usr/local/directadmin/conf/directadmin.conf
+grep -q 'brute_force_log_scanner=1' /usr/local/directadmin/conf/directadmin.conf || /usr/bin/perl -pi -e 's/^brute_force_log_scanner=.*/brute_force_log_scanner=0/' /usr/local/directadmin/conf/directadmin.conf
+service directadmin restart
+cd /usr/local/directadmin/custombuild
+./build clean all
+./build php n
+./build set userdir_access no
+./build rewrite_confs
+```
+
+# ERROR QUOTA
+```
+echo `mount | grep ' / '` > /root/.filesystem
+grep -q 'type xfs' /root/.filesystem && ( grep -q 'noquota' /root/.filesystem && ( printf "`sed -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"rootflags=uquota,pquota /' /etc/default/grub`" > /etc/default/grub && cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.orig && grub2-mkconfig -o /boot/grub2/grub.cfg && echo "Please wait, server will reboot now!" && reboot ) || echo "" ) || ( cd /usr/sbin && mv setquota setquota.old && touch setquota && chmod 755 setquota )
 ```
