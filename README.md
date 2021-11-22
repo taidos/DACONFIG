@@ -57,19 +57,31 @@ firewall-cmd --reload
 ```
 
 # INSTALL DIRECTADMIN
-(*) <b><a href="https://github.com/irf1404/DA" target="_blank">HERE</a></b>
+(*) INSTALL DIRECTADMIN <b><a href="https://github.com/irf1404/DA" target="_blank">HERE</a></b>
 
 # AFTER INSTALL
 ```
+# CONFIG NETWORK CARD
 /usr/bin/perl -pi -e 's/^ethernet_dev=.*/ethernet_dev=${NIC}:100/' /usr/local/directadmin/conf/directadmin.conf
+
+# FIX UNICODE
 /usr/bin/perl -pi -e 's/^LANG_ENCODING=.*/LANG_ENCODING=UTF-8/' /usr/local/directadmin/data/skins/enhanced/lang/en/lf_standard.html
+
+# PHP INFO AND STATUS SERVER
 wget -O /var/www/html/status.php https://raw.githubusercontent.com/irf1404/DACONFIG/master/status.php
+wget -O /var/www/html/phpinfo.php https://raw.githubusercontent.com/irf1404/DACONFIG/master/phpinfo.php
 chmod 644 /var/www/html/status.php
+chmod 644 /var/www/html/phpinfo.php
 chown webapps:webapps /var/www/html/status.php
+chown webapps:webapps /var/www/html/phpinfo.php
+
+# ADD OPTION FOR DIRECTADMIN
 grep -q 'enable_ssl_sni=1' /usr/local/directadmin/conf/directadmin.conf || echo "enable_ssl_sni=1" >> /usr/local/directadmin/conf/directadmin.conf
 grep -q 'hide_brute_force_notifications=1' /usr/local/directadmin/conf/directadmin.conf || echo "hide_brute_force_notifications=1" >> /usr/local/directadmin/conf/directadmin.conf
 grep -q 'brute_force_log_scanner=1' /usr/local/directadmin/conf/directadmin.conf || /usr/bin/perl -pi -e 's/^brute_force_log_scanner=.*/brute_force_log_scanner=0/' /usr/local/directadmin/conf/directadmin.conf
 service directadmin restart
+
+# BUILD PHP FOR FIX SHORT TAG AND SERVICE UNAVAILABLE
 cd /usr/local/directadmin/custombuild
 ./build clean all
 ./build php n
