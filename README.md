@@ -89,7 +89,7 @@ cd /usr/local/directadmin/custombuild
 ./build rewrite_confs
 ```
 
-# ERROR QUOTA
+# FIX ERROR QUOTA
 ```
 echo `mount | grep ' / '` > /root/.filesystem
 grep -q 'type xfs' /root/.filesystem && ( grep -q 'noquota' /root/.filesystem && ( printf "`sed -e 's/GRUB_CMDLINE_LINUX=\"/GRUB_CMDLINE_LINUX=\"rootflags=uquota,pquota /' /etc/default/grub`" > /etc/default/grub && cp /boot/grub2/grub.cfg /boot/grub2/grub.cfg.orig && grub2-mkconfig -o /boot/grub2/grub.cfg && echo "Please wait, server will reboot now" && reboot ) || echo "" ) || ( cd /usr/sbin && mv setquota setquota.old && touch setquota && chmod 755 setquota )
