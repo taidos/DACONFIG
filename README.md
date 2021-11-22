@@ -41,6 +41,7 @@ NIC="ethx" # WITH x IS NUMBER OF CARD, eth0, venet0, ens0,...
 ```
 NIC="eth0"
 wget -O /root/.license https://raw.githubusercontent.com/irf1404/DACONFIG/master/license.txt
+rm -rf /etc/sysconfig/network-scripts/ifcfg-${NIC}:100
 printf "DEVICE=${NIC}:100\nIPADDR=`grep ^ip= /root/.license |cut -d= -f2`\nNETMASK=255.255.255.0" > /etc/sysconfig/network-scripts/ifcfg-${NIC}:100
 /usr/sbin/ifup ${NIC}:100
 ```
